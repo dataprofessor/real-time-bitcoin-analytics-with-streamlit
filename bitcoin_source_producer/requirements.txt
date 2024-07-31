@@ -1,0 +1,3 @@
+python-dotenv==1.0.1
+quixstreams~=2.8.0
+websocket-client==1.8.0
