@@ -54,6 +54,18 @@ services:
       context: "./bitcoin_source_producer"
     environment:
       - KAFKA_BROKER_ADDRESS=kafka-broker:9092
-      - OUTPUT_TOPIC=trades-raw
+      - OUTPUT_TOPIC_NAME=trades-raw
+    depends_on:
+      - kafka-broker
+
+  ohlc-aggregator:
+    container_name: ohlc-aggregator
+    restart: always
+    build:
+      context: "./ohlc_aggregator"
+    environment:
+      - KAFKA_BROKER_ADDRESS=kafka-broker:9092
+      - INPUT_TOPIC_NAME=trades-raw
+      - OUTPUT_TOPIC_NAME=trades-ohlc
     depends_on:
       - kafka-broker

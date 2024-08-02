@@ -7,10 +7,10 @@ from quixstreams import Application
 
 
 KAFKA_BROKER_ADDRESS = "kafka-broker:9092"
-OUTPUT_TOPIC = "trades-raw"
+OUTPUT_TOPIC_NAME = "trades-raw"
 # Docs https://docs.kraken.com/websockets-v2
 KRAKEN_API_URL = "wss://ws.kraken.com/v2"
-KRAKEN_SYMBOL_PAIRS = ["BTC/GBP", "BTC/USD"]
+KRAKEN_SYMBOL_PAIRS = ["BTC/USD"]
 
 
 def main():
@@ -86,7 +86,7 @@ def main():
                         "side": trade["side"],
                         "price": trade["price"],
                         "quantity": trade["qty"],
-                        "timestamp": timestamp_to_ms(trade["timestamp"]),
+                        "timestamp_ms": timestamp_to_ms(trade["timestamp"]),
                     }
                 )
             
@@ -100,7 +100,7 @@ def main():
                     trade_str = json.dumps(trade) 
                     logging.info(f"Producing trade: {trade_str}")
                     producer.produce(
-                        topic=OUTPUT_TOPIC,
+                        topic=OUTPUT_TOPIC_NAME,
                         key=trade["symbol"],
                         value=trade_str,
                     )
