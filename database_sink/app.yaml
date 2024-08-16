@@ -1,0 +1,10 @@
+name: database_sink
+language: Python
+variables:
+  - name: input
+    inputType: InputTopic
+    defaultValue: trades-ohlc
+    required: false
+dockerfile: dockerfile
+runEntryPoint: main.py
+defaultFile: main.py

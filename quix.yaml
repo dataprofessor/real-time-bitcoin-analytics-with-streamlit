@@ -39,8 +39,22 @@ deployments:
         description: Name of the output topic to write to.
         required: false
         value: trades-ohlc
+  - name: database_sink
+    application: database_sink
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 200
+      memory: 800
+      replicas: 1
+    variables:
+      - name: input
+        inputType: InputTopic
+        required: false
+        value: trades-ohlc
 
 # This section describes the Topics of the data pipeline
 topics:
   - name: trades-raw
   - name: trades-ohlc
+  - name: transform

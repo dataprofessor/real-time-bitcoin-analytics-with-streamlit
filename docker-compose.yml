@@ -69,3 +69,41 @@ services:
       - OUTPUT_TOPIC_NAME=trades-ohlc
     depends_on:
       - kafka-broker
+  
+  database:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_DB=quix
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+    volumes:
+      # - ./data/postgresql:/var/lib/postgresql/data
+      - postgresql:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+  
+  database_sink:
+    container_name: database_sink
+    restart: always
+    build:
+      context: "./database_sink"
+    volumes:
+      - /dev/null:/app/.env
+    environment:
+      input: trades-ohlc
+      Quix__Broker__Address: kafka-broker:9092
+    depends_on:
+      - database
+
+  database_query_test:
+    container_name: database_query_test
+    restart: always
+    build:
+      context: "./database_query_test"
+    volumes:
+      - /dev/null:/app/.env
+    depends_on:
+      - database_sink
+
+volumes:
+  postgresql:
