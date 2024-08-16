@@ -1,21 +1,22 @@
 import logging
+import os
 
 from datetime import timedelta
 from typing import Any, List, Optional, Tuple
 from quixstreams import Application
 
 
-KAFKA_BROKER_ADDRESS = "kafka-broker:9092"
-INPUT_TOPIC_NAME = "trades-raw"
-OUTPUT_TOPIC_NAME = "trades-ohlc"
-OHLC_WINDOW_DURATION_MS = 60000
-OHLC_WINDOW_GRACE_MS = 5000
+KAFKA_BROKER_ADDRESS = os.environ["KAFKA_BROKER_ADDRESS"]
+INPUT_TOPIC_NAME = os.environ["INPUT_TOPIC_NAME"]
+OUTPUT_TOPIC_NAME = os.environ["OUTPUT_TOPIC_NAME"]
+OHLC_WINDOW_DURATION_MS = eval(os.environ["OHLC_WINDOW_DURATION_MS"])
+OHLC_WINDOW_GRACE_MS = eval(os.environ["OHLC_WINDOW_GRACE_MS"])
 
 
 def main():
     app = Application(
         broker_address=KAFKA_BROKER_ADDRESS,
-        consumer_group="trades-ohlc",
+        consumer_group="trades-ohlc-aggregator",
         auto_offset_reset="latest",
     )
     

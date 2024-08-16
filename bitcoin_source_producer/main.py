@@ -1,16 +1,17 @@
 import logging
 import json
+import os
 import websocket
 
 from datetime import datetime, timezone
 from quixstreams import Application
 
 
-KAFKA_BROKER_ADDRESS = "kafka-broker:9092"
-OUTPUT_TOPIC_NAME = "trades-raw"
+KAFKA_BROKER_ADDRESS = os.environ["KAFKA_BROKER_ADDRESS"]
+OUTPUT_TOPIC_NAME = os.environ["OUTPUT_TOPIC_NAME"]
 # Docs https://docs.kraken.com/websockets-v2
-KRAKEN_API_URL = "wss://ws.kraken.com/v2"
-KRAKEN_SYMBOL_PAIRS = ["BTC/USD"]
+KRAKEN_API_URL = os.environ["KRAKEN_API_URL"]
+KRAKEN_SYMBOL_PAIRS = eval(os.environ["KRAKEN_SYMBOL_PAIRS"])
 
 
 def main():
