@@ -121,5 +121,24 @@ services:
     depends_on:
       - database
 
+  streamlit:
+    container_name: streamlit
+    restart: always
+    build:
+      context: "./streamlit"
+    ports:
+      - 8051:8051
+    volumes:
+      - /dev/null:/app/.env
+    environment:
+      - POSTGRESQL_HOST=database
+      - POSTGRESQL_PORT=5432
+      - POSTGRESQL_DATABASE=quix
+      - POSTGRESQL_USER=user
+      - POSTGRESQL_PASSWORD=password
+      - POSTGRESQL_TABLE=ohlc
+    depends_on:
+      - database
+
 volumes:
   postgresql:

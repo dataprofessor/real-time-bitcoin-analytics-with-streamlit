@@ -1,0 +1,11 @@
+name: streamlit
+language: Python
+variables:
+  - name: input
+    inputType: InputTopic
+    description: Streamlit app.
+    defaultValue: transform
+    required: false
+dockerfile: dockerfile
+runEntryPoint: streamlit_app.py
+defaultFile: streamlit_app.py
